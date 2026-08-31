@@ -31,5 +31,8 @@ public class MyRunner implements ApplicationRunner {
         // Consumer의 추상메서드 void accept(T t)
         // Consumer 인터페이스를 람다식으로 표현
         args.getOptionNames().forEach( name -> System.out.println("name = " + name));
+
+        // Consumer 인터페이스를 Method Reference로 표현
+        args.getOptionNames().forEach(System.out::println);
     }
 }
