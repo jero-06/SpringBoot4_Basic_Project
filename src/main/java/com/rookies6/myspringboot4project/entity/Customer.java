@@ -1,6 +1,5 @@
 package com.rookies6.myspringboot4project.entity;
 
-
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +11,6 @@ import java.time.LocalDateTime;
 @Table(name = "customers")
 @Getter @Setter
 public class Customer {
-
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -25,6 +23,5 @@ public class Customer {
     @Column(nullable = false, updatable = false)
     @CreationTimestamp
     private LocalDateTime createdAt = LocalDateTime.now();
-
 
 }
