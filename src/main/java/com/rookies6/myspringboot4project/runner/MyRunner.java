@@ -33,16 +33,16 @@ public class MyRunner implements ApplicationRunner {
     @Autowired
     private CustomVO customVO;
 
-    private Logger logger = LoggerFactory.getLogger(MyRunner.class)
-
+    private Logger logger = LoggerFactory.getLogger(MyRunner.class);
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
         logger.info("Logger 구현체 클래스명 {}", logger.getClass().getName());
-        logger.debug("MyRunner run() 호출됨!");
+        logger.debug("MyRunner run() 호출됨!!");
+        System.out.println("Application Name = " + applicationName);
         logger.debug("Application Name = {}", applicationName);
 
-        // Consumer 인터페이스를 Anonymous Inner Class로 표현
+        //Consumer 인터페이스를 Anonymous Inner Class 로 표현
         args.getOptionNames().forEach(new Consumer<String>() {
             @Override
             public void accept(String s) {
@@ -50,25 +50,24 @@ public class MyRunner implements ApplicationRunner {
             }
         });
 
-
         // args.getOptionNames() 메서드의 리턴타입 Set<String>
-        // Iterable의 forEach(Consumer)
-        // Consumer의 추상메서드 void accept(T t)
-        // Consumer 인터페이스를 람다식으로 표현
-        args.getOptionNames().forEach( name -> System.out.println(name));
+        //Iterable 의 forEach(Consumer)
+        //Consumer의 추상메서드 void accept(T t)
+        //Consumer 인터페이스를 람다식으로 표현
+        args.getOptionNames().forEach(name -> System.out.println(name));
 
-        // Consumer 인터페이스를 Method Reference로 표현
+        //Consumer 인터페이스를 Method Reference 로 표현
         args.getOptionNames().forEach(System.out::println);
 
-        logger.debug("${myboot.name} = " + name);
-        logger.debug("${myboot.age}} = " + age);
-        logger.debug("${myboot.fullName}} = " + environment.getProperty("myboot.fullName"));
+        System.out.println("${myboot.name} = " + name);
+        System.out.println("${myboot.age} = " + age);
+        System.out.println("${myboot.fullName} = " + environment.getProperty("myboot.fullName"));
 
-        logger.info("MyBootProperties getName() = " + properties.getName());
-        logger.info("MyBootProperties getAge() = " + properties.getAge());
-        logger.info("MyBootProperties getFullName() = " + properties.getFullName());
+        System.out.println("MyBootProperties getName() = " + properties.getName());
+        System.out.println("MyBootProperties getAge() = " + properties.getAge());
+        System.out.println("MyBootProperties getFullName() = " + properties.getFullName());
 
-        logger.debug("현재 활성화 되어있는 CustomV0= " + customVO);
+        System.out.println("현재 활성화 되어있는 CustomVO= " + customVO);
 
 
     }
