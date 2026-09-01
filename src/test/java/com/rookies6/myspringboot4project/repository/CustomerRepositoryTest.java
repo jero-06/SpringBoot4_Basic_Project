@@ -11,7 +11,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest
 class CustomerRepositoryTest {
     @Autowired
-    CustomerRepository
+    CustomerRepository customerRepository;
 
     @Test
     void testCreate() {
@@ -20,9 +20,11 @@ class CustomerRepositoryTest {
         customer.setCustomerId("A004");
         customer.setCustomerName("둘리");
 
-        //When(실행단계)
-
+        Customer addCustomer = customerRepository.save(customer);
         //Then(검증단계)
+
+        assertThat(addCustomer).isNotNull();
+        assertThat(addCustomer.getCustomerName()).isEqualTo("둘리");
 
 
     }
