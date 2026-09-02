@@ -15,7 +15,7 @@ class CustomerRepositoryTest {
     @Autowired
     CustomerRepository customerRepository;
 
-    // 1. Customer 등록
+    //1. Customer 등록
     @Test
     void testCreate() {
         //Given(준비단계)
@@ -29,10 +29,15 @@ class CustomerRepositoryTest {
         assertThat(addCustomer.getCustomerName()).isEqualTo("둘리");
     }
 
-    // 2. Customer 조회
+    //2. Customer 조회
     @Test
-    void testFindBy(){
+    void testFindBy() {
         Optional<Customer> optionalCustomer = customerRepository.findById(1L);
-
+        if(optionalCustomer.isPresent()){
+            Customer existCustomer = optionalCustomer.get();
+            assertThat(existCustomer.getId()).isEqualTo(1L);
+        }
+        //ifPreset(Consumer) Consumer의 추상 메서드는 void accept(T t)
+        optionalCustomer.ifPresent(customer -> System.out.println(customer.getCustomerName()));
     }
 }
