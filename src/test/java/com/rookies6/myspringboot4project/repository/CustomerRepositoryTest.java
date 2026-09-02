@@ -65,7 +65,11 @@ class CustomerRepositoryTest {
     //@Rollback(value = false)
     void testUpdate() {
         Customer customer = customerRepository.findByCustomerId("A004")
-                .orElseGet(() -> new Customer());
+                .orElseGet(() -> new Customer());\
+
+        // Setter 호출 Drity Chekcing
+        customer.setCustomerName("김둘리");
+        assertThat(customer.getCustomerName()).isEqualTo("김둘리");
 
     }
 }
