@@ -4,6 +4,8 @@ import com.rookies6.myspringboot4project.entity.Customer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -11,22 +13,24 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@Transactional
 class CustomerRepositoryTest {
     @Autowired
     CustomerRepository customerRepository;
 
     //1. Customer 등록
     @Test
+    @Rollback(value = false) // 등록된 데이터를 확인할거에요. Rollback 처리 하지 마세요.
     void testCreate() {
         //Given(준비단계)
         Customer customer = new Customer();
-        customer.setCustomerId("B001");
-        customer.setCustomerName("길동");
+        customer.setCustomerId("D002");
+        customer.setCustomerName("길동3");
         //When(실행단계)
         Customer addCustomer = customerRepository.save(customer);
         //Then(검증단계)
         assertThat(addCustomer).isNotNull();
-        assertThat(addCustomer.getCustomerName()).isEqualTo("길동");
+        assertThat(addCustomer.getCustomerName()).isEqualTo("길동3");
     }
 
     //2. Customer 조회
@@ -37,23 +41,31 @@ class CustomerRepositoryTest {
             Customer existCustomer = optionalCustomer.get();
             assertThat(existCustomer.getId()).isEqualTo(1L);
         }
-        //ifPreset(Consumer) Consumer의 추상 메서드는 void accept(T t)
+        //ifPresent(Consumer) Consumer의 추상메서드 void accept(T t)
         optionalCustomer.ifPresent(customer -> System.out.println(customer.getCustomerName()));
+    }
 
-        @Test
-        void testFindByNotFound() {
-            // Optional의 orElseGet(Supplier) Supplier의 추상메서드 T get() () -> T
-                        Customer notFoundCustomer = customerRepository.findByCustomerId("A004") //Optional<Customer>
-                    .orElseGet(() -> new Customer());
-            // 있을 때
-            // assertThat(notFoundCustomer.getCustomerId()).isEqualTo("A004");
-            // 없을 때 Null로 테스트 성공시키는 법
-            assertThat(notFoundCustomer.getCustomerId()).isNull();
+    @Test
+    void testFindByNotFound() {
+        //Optional의 orElseGet(Supplier) Supplier의 추상메서드 T get()  () -> T
+        Customer notFoundCustomer = customerRepository.findByCustomerId("B001")//Optional<Customer>
+                .orElseGet(() -> new Customer());
+        //assertThat(notFoundCustomer.getCustomerId()).isEqualTo("A004");
+        assertThat(notFoundCustomer.getCustomerId()).isNull();
 
-            // orElseThrow(Supplier) Supplier 사용 X get() () --> X : X extends Throwable
-            // public <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier)
-            Customer notFound = customerRepository.findById(1L)
-                    .orElseThrow(() -> new RuntimeException("Customer Not Found"));
-        }
+        // orElseThrow(Supplier) 사용 X get()  () -> X  ==> X extends Throwable
+        //public <X extends Throwable> T orElseThrow(Supplier<? extends X> exceptionSupplier)
+        Customer notFound = customerRepository.findById(3L)
+                .orElseThrow(() -> new RuntimeException("Customer Not Found"));
+
+
+    }
+
+    @Test
+    //@Rollback(value = false)
+    void testUpdate() {
+        Customer customer = customerRepository.findByCustomerId("A004")
+                .orElseGet(() -> new Customer());
+
     }
 }
