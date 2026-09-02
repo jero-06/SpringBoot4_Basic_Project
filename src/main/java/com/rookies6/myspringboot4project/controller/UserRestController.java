@@ -1,13 +1,14 @@
 package com.rookies6.myspringboot4project.controller;
 
 import com.rookies6.myspringboot4project.entity.User;
+import com.rookies6.myspringboot4project.exception.BusinessException;
 import com.rookies6.myspringboot4project.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -25,5 +26,14 @@ public class UserRestController {
     @PostMapping
     public User createUser(@RequestBody User userDetail) {
         return userRepository.save(userDetail);
+    }
+
+    @GetMapping("/{id}")
+    public User getUser(@PathVariable Long id) {
+        Optional<User> optionalUser = userRepository.findById(id);//Optional<User>
+        // orElseThrow(Supplier) Supplier의 추상메서드 () -> T
+        User existUer = optionalUser.orElseThrow(() -> new BusinessException("User Not Found", HttpStatus.NOT_FOUND));
+        return existUer;
+
     }
 }
