@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
-@RequestMapping("\api\users")
+@RequestMapping("/api/users")
 public class UserRestController {
     private UserRepository userRepository;
 
