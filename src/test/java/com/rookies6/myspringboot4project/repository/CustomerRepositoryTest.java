@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -13,6 +15,7 @@ class CustomerRepositoryTest {
     @Autowired
     CustomerRepository customerRepository;
 
+    // 1. Customer 등록
     @Test
     void testCreate() {
         //Given(준비단계)
@@ -24,5 +27,12 @@ class CustomerRepositoryTest {
         //Then(검증단계)
         assertThat(addCustomer).isNotNull();
         assertThat(addCustomer.getCustomerName()).isEqualTo("둘리");
+    }
+
+    // 2. Customer 조회
+    @Test
+    void testFindBy(){
+        Optional<Customer> optionalCustomer = customerRepository.findById(1L);
+
     }
 }
