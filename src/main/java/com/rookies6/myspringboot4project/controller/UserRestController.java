@@ -30,7 +30,7 @@ public class UserRestController {
     }
 
     @GetMapping("/{id}")
-    public User getUser(@PathVariable Long id) {
+    public User getUserById(@PathVariable Long id) {
         Optional<User> optionalUser = userRepository.findById(id);//Optional<User>
         // orElseThrow(Supplier) Supplier의 추상메서드 () -> T
         User existUer = optionalUser.orElseThrow(() -> new BusinessException("User Not Found", HttpStatus.NOT_FOUND));
@@ -41,5 +41,10 @@ public class UserRestController {
     @GetMapping
     public List<User> getUser() {
         return userRepository.findAll();
+    }
+
+    @GetMapping("/{email")
+    public User getUserByEmail(@PathVariable String email) {
+
     }
 }
