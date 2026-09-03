@@ -26,8 +26,8 @@ public class UserController {
      */
     @GetMapping("/index")
     public ModelAndView userList() {
-        List<User> userLi = userRepository.findAll();
-        return new ModelAndView();
+        List<User> userList = userRepository.findAll();
+        return new ModelAndView("index","users",userList);
     }
 
 }
