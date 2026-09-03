@@ -10,7 +10,7 @@ public class UserController {
     @GetMapping("/thymeleaf")
     public String leaf(Model model) {
 
-        model.addAttribute("name","basic");
+        model.addAttribute("name","스프링부트");
         return "leaf";
 
     }
