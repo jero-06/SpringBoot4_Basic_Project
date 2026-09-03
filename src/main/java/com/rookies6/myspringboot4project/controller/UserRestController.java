@@ -33,9 +33,14 @@ public class UserRestController {
     public User getUserById(@PathVariable Long id) {
         Optional<User> optionalUser = userRepository.findById(id);//Optional<User>
         // orElseThrow(Supplier) Supplier의 추상메서드 () -> T
-        User existUer = optionalUser.orElseThrow(() -> new BusinessException("User Not Found", HttpStatus.NOT_FOUND));
+        User existUer = getUser(optionalUser);
         return existUer;
 
+    }
+
+    private static User getUser(Optional<User> optionalUser) {
+        User existUer = optionalUser.orElseThrow(() -> new BusinessException("User Not Found", HttpStatus.NOT_FOUND));
+        return existUer;
     }
 
     @GetMapping
@@ -43,8 +48,10 @@ public class UserRestController {
         return userRepository.findAll();
     }
 
-    @GetMapping("/{email")
+    @GetMapping("/{email}/")
     public User getUserByEmail(@PathVariable String email) {
+        User existUer = getUser(userRepository.findByEmail(email));
+        return existUer;
 
     }
 }
