@@ -14,14 +14,13 @@ import java.util.List;
 @Controller
 @RequiredArgsConstructor
 public class UserController {
-    private final UserRepository userRepository
+    private final UserRepository userRepository;
 
     @GetMapping("/thymeleaf")
     public String leaf(Model model) {
         model.addAttribute("name","스프링부트");
         return "leaf";
     }
-
     /*
         public ModelAndView(String viewName, String modelName, Object modelObject)
      */
@@ -35,5 +34,6 @@ public class UserController {
     public String showSignUpForm(@ModelAttribute("userForm") User user) {
         return "add-user";
     }
+
 
 }
