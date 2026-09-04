@@ -20,7 +20,7 @@ import java.util.Optional;
 public class UserRestController {
     private final UserRepository userRepository;
 
-//    //Constructor Injection - Mock 객체 주입 가능
+    //Constructor Injection - Mock 객체 주입이 가능
 //    public UserRestController(UserRepository userRepository) {
 //        log.info("UserRepository 구현 클래스명 = {}", userRepository.getClass().getName());
 //        this.userRepository = userRepository;
@@ -35,37 +35,36 @@ public class UserRestController {
     @PreAuthorize("hasAuthority('ROLE_USER')")
     public User getUserById(@PathVariable Long id) {
         Optional<User> optionalUser = userRepository.findById(id);//Optional<User>
-        // orElseThrow(Supplier) Supplier의 추상메서드 () -> T
-        User existUer = getUser(optionalUser);
-        return existUer;
-
+        //orElseThrow(Supplier) Supplier의 추상메서드 () -> T
+        User existUser = getUser(optionalUser);
+        return existUser;
     }
 
     private static User getUser(Optional<User> optionalUser) {
-        User existUer = optionalUser.orElseThrow(() -> new BusinessException("User Not Found", HttpStatus.NOT_FOUND));
-        return existUer;
+        User existUser = optionalUser.orElseThrow(
+                () -> new BusinessException("User Not Found", HttpStatus.NOT_FOUND));
+        return existUser;
     }
 
     @GetMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    public List<User> getUser() {
+    public List<User> getUsers() {
         return userRepository.findAll();
     }
 
     @GetMapping("/{email}/")
     public User getUserByEmail(@PathVariable String email) {
-        User existUer = getUser(userRepository.findByEmail(email));
-        return existUer;
-
+        User existUser = getUser(userRepository.findByEmail(email));
+        return existUser;
     }
 
     @PatchMapping("/{email}/")
     public User updateUser(@PathVariable String email, @RequestBody User userDetail) {
-        User existUer = getUser(userRepository.findByEmail(email));
+        User existUser = getUser(userRepository.findByEmail(email));
         //setter method 호출
-        existUer.setName(userDetail.getName());
-        //save()를 호출해야 updateQuery가 처리됨
-        return userRepository.save(existUer);
+        existUser.setName(userDetail.getName());
+        //save()를 호출해야 update Query가 처리됨
+        return userRepository.save(existUser);
     }
 
     @DeleteMapping("/{id}")

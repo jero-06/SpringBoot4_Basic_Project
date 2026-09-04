@@ -28,6 +28,14 @@ public class UserInfoUserDetails implements UserDetails {
                 .collect(Collectors.toList());
     }
 
+    /*
+        ROLE_ADMIN, ROLE_USER 문자열 -> 콤마를 기준으로 Split(자른다): String(문자열)이 된다. -> Array가 생성됨
+        만들어진 Array로 Stream 객체를 생성한다.
+        Stream<String> => Stream<SimpleGrantedAuthority> => List<SimpleGrantedAuthority> (권한 객체를 만들어준다.)
+        이 과정에 Stream이 최적화 되어있다.
+     */
+
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;
