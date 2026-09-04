@@ -8,12 +8,9 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import static org.springframework.security.config.Customizer.withDefaults;
@@ -52,18 +49,18 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
-        //ADMIN 역할 사용자 생성
-        UserDetails admin = User.withUsername("adminboot")
-                .password(encoder.encode("pwd1"))
-                .roles("ADMIN")
-                .build();
-        //User 역할 사용자 생성
-        UserDetails user = User.withUsername("userboot")
-                .password(encoder.encode("pwd2"))
-                .roles("USER")
-                .build();
-        return new InMemoryUserDetailsManager(admin, user);
-    }
+//    @Bean
+//    public UserDetailsService userDetailsService(PasswordEncoder encoder) {
+//        //ADMIN 역할 사용자 생성
+//        UserDetails admin = User.withUsername("adminboot")
+//                .password(encoder.encode("pwd1"))
+//                .roles("ADMIN")
+//                .build();
+//        //User 역할 사용자 생성
+//        UserDetails user = User.withUsername("userboot")
+//                .password(encoder.encode("pwd2"))
+//                .roles("USER")
+//                .build();
+//        return new InMemoryUserDetailsManager(admin, user);
+//    }
 }
