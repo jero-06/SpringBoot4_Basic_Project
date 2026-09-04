@@ -20,10 +20,12 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService userDetailsService(PasswordEncoder encoder) {
+        //ADMIN 역할 사용자 생성
         UserDetails admin = User.withUsername("adminboot")
                 .password(encoder.encode("pwd1"))
                 .roles("ADMIN")
                 .build();
+        //USER 역할 사용자 생성
         UserDetails user = User.withUsername("userboot")
                 .password(encoder.encode("pwd2"))
                 .roles("USER")
