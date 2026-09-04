@@ -1,7 +1,10 @@
 package com.rookies6.myspringboot4project.auth.config;
 
+import com.rookies6.myspringboot4project.auth.userinfo.UserInfoUserDetailsService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -19,12 +22,25 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+        return new UserInfoUserDetailsService();
+    }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider(userDetailsService());
+        authenticationProvider.setPasswordEncoder(passwordEncoder());
+        return authenticationProvider;
+    }
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/api/users/welcome").permitAll()
-                            .requestMatchers("/users/**").authenticated();
+                    auth.requestMatchers("/api/users/welcome", "/userinfos/new").permitAll()
+                            .requestMatchers("/api/users/**").authenticated();
                 })
                 .formLogin(withDefaults())
                 .build();
@@ -43,7 +59,7 @@ public class SecurityConfig {
                 .password(encoder.encode("pwd1"))
                 .roles("ADMIN")
                 .build();
-        //USER 역할 사용자 생성
+        //User 역할 사용자 생성
         UserDetails user = User.withUsername("userboot")
                 .password(encoder.encode("pwd2"))
                 .roles("USER")
