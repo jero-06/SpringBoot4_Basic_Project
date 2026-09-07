@@ -24,7 +24,8 @@ public class StudentService {
     public List<StudentDTO.Response> getAllStudents() {
         return studentRepository.findAll()
                 .stream()
-                .map(StudentDTO.Response::fromEntity)
+                .map(studentEntity -> StudentDTO.Response.fromEntity(studentEntity))
+                //.map(StudentDTO.Response::fromEntity)
                 .toList();
         //.collect(Collectors.toList());
     }
