@@ -21,10 +21,13 @@ public class StreamTest {
         System.out.println(result1);
 
         // (2) Stream 방식 : (1)과 완전히 같은 동작
-        List<String> result2 = names.stream()        // ① 스트림 생성
+        List<String> result2 = names.stream()        // ① 스트림 생성 List<String> => Stream<String>
+                // .filter(Predicate) Predicate의 추상메서드 T -> boolean
                 .filter(name -> name.length() > 3)    // ② 중간 연산 - 길이가 3 초과인 것만
-                .map(String::toUpperCase)            // ② 중간 연산 - 대문자로 변환
-                .toList();                            // ③ 최종 연산 - List 로 수집
+                // .map(Function) Function의 추상메서드 T -> R
+                .map(name -> name.toUpperCase())
+                //.map(String::toUpperCase)            // ② 중간 연산 - 대문자로 변환
+                .toList();                            // ③ 최종 연산 - List 로 수집 Stream<String> => List<String>
         // 결과 : [ALICE, CHARLIE, DIANA]
         System.out.println(result2);
     }
