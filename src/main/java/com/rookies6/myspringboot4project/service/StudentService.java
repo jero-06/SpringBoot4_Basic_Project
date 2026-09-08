@@ -30,6 +30,7 @@ public class StudentService {
         //.collect(Collectors.toList());
     }
 
+    // PK로 학생 조회(FETCH JOIN)
     public StudentDTO.Response getStudentById(Long id) {
         Student student = studentRepository.findByIdWithStudentDetail(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND,
@@ -37,6 +38,7 @@ public class StudentService {
         return StudentDTO.Response.fromEntity(student);
     }
 
+    // 학번으로 학생 조회
     public StudentDTO.Response getStudentByStudentNumber(String studentNumber) {
         Student student = studentRepository.findByStudentNumber(studentNumber)
                 .orElseThrow(() -> new BusinessException(ErrorCode.RESOURCE_NOT_FOUND,
